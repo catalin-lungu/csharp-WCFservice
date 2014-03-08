@@ -1,0 +1,233 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="2.0" xmlns:edmx="http://schemas.microsoft.com/ado/2008/10/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="TestModel.Store" Alias="Self" Provider="System.Data.SqlClient" ProviderManifestToken="2008" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/02/edm/ssdl">
+        <EntityContainer Name="TestModelStoreContainer">
+          <EntitySet Name="CUSTOMER" EntityType="TestModel.Store.CUSTOMER" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ORDER" EntityType="TestModel.Store.ORDER" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="ORDERDETAILS" EntityType="TestModel.Store.ORDERDETAILS" store:Type="Tables" Schema="dbo" />
+          <EntitySet Name="sysdiagrams" EntityType="TestModel.Store.sysdiagrams" store:Type="Tables" Schema="dbo" />
+          <AssociationSet Name="FK_ORDER_COSTUMER" Association="TestModel.Store.FK_ORDER_COSTUMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMER" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDERDETAILS_ORDER" Association="TestModel.Store.FK_ORDERDETAILS_ORDER">
+            <End Role="ORDER" EntitySet="ORDER" />
+            <End Role="ORDERDETAILS" EntitySet="ORDERDETAILS" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUSTOMERID" />
+          </Key>
+          <Property Name="CUSTOMERID" Type="smallint" Nullable="false" />
+          <Property Name="NAME" Type="char" Nullable="false" MaxLength="20" />
+          <Property Name="ADRESA" Type="char" MaxLength="30" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="ORDERID" />
+          </Key>
+          <Property Name="ORDERID" Type="smallint" Nullable="false" />
+          <Property Name="DATA" Type="date" Nullable="false" />
+          <Property Name="CUSTOMERID" Type="smallint" Nullable="false" />
+          <Property Name="VALOARE" Type="decimal" Precision="12" Scale="2" />
+        </EntityType>
+        <EntityType Name="ORDERDETAILS">
+          <Key>
+            <PropertyRef Name="ORDERID" />
+            <PropertyRef Name="SERIAL" />
+          </Key>
+          <Property Name="ORDERID" Type="smallint" Nullable="false" />
+          <Property Name="PRODUS" Type="char" Nullable="false" MaxLength="20" />
+          <Property Name="VALOARE" Type="decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="SERIAL" Type="smallint" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" Nullable="false" MaxLength="128" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <Association Name="FK_ORDER_COSTUMER">
+          <End Role="CUSTOMER" Type="TestModel.Store.CUSTOMER" Multiplicity="1" />
+          <End Role="ORDER" Type="TestModel.Store.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMERID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="CUSTOMERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDERDETAILS_ORDER">
+          <End Role="ORDER" Type="TestModel.Store.ORDER" Multiplicity="1" />
+          <End Role="ORDERDETAILS" Type="TestModel.Store.ORDERDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDER">
+              <PropertyRef Name="ORDERID" />
+            </Principal>
+            <Dependent Role="ORDERDETAILS">
+              <PropertyRef Name="ORDERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestModel" Alias="Self" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
+        <EntityContainer Name="TestEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="CUSTOMER" EntityType="TestModel.CUSTOMER" />
+          <EntitySet Name="ORDER" EntityType="TestModel.ORDER" />
+          <EntitySet Name="ORDERDETAILS" EntityType="TestModel.ORDERDETAILS" />
+          <EntitySet Name="sysdiagrams" EntityType="TestModel.sysdiagrams" />
+          <AssociationSet Name="FK_ORDER_COSTUMER" Association="TestModel.FK_ORDER_COSTUMER">
+            <End Role="CUSTOMER" EntitySet="CUSTOMER" />
+            <End Role="ORDER" EntitySet="ORDER" />
+          </AssociationSet>
+          <AssociationSet Name="FK_ORDERDETAILS_ORDER" Association="TestModel.FK_ORDERDETAILS_ORDER">
+            <End Role="ORDER" EntitySet="ORDER" />
+            <End Role="ORDERDETAILS" EntitySet="ORDERDETAILS" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="CUSTOMER">
+          <Key>
+            <PropertyRef Name="CUSTOMERID" />
+          </Key>
+          <Property Name="CUSTOMERID" Type="Int16" Nullable="false" />
+          <Property Name="NAME" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="true" />
+          <Property Name="ADRESA" Type="String" MaxLength="30" Unicode="false" FixedLength="true" />
+          <NavigationProperty Name="ORDER" Relationship="TestModel.FK_ORDER_COSTUMER" FromRole="CUSTOMER" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="ORDER">
+          <Key>
+            <PropertyRef Name="ORDERID" />
+          </Key>
+          <Property Name="ORDERID" Type="Int16" Nullable="false" />
+          <Property Name="DATA" Type="DateTime" Nullable="false" />
+          <Property Name="CUSTOMERID" Type="Int16" Nullable="false" />
+          <Property Name="VALOARE" Type="Decimal" Precision="12" Scale="2" />
+          <NavigationProperty Name="CUSTOMER" Relationship="TestModel.FK_ORDER_COSTUMER" FromRole="ORDER" ToRole="CUSTOMER" />
+          <NavigationProperty Name="ORDERDETAILS" Relationship="TestModel.FK_ORDERDETAILS_ORDER" FromRole="ORDER" ToRole="ORDERDETAILS" />
+        </EntityType>
+        <EntityType Name="ORDERDETAILS">
+          <Key>
+            <PropertyRef Name="ORDERID" />
+            <PropertyRef Name="SERIAL" />
+          </Key>
+          <Property Name="ORDERID" Type="Int16" Nullable="false" />
+          <Property Name="PRODUS" Type="String" Nullable="false" MaxLength="20" Unicode="false" FixedLength="true" />
+          <Property Name="VALOARE" Type="Decimal" Nullable="false" Precision="12" Scale="2" />
+          <Property Name="SERIAL" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="ORDER" Relationship="TestModel.FK_ORDERDETAILS_ORDER" FromRole="ORDERDETAILS" ToRole="ORDER" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" Nullable="false" MaxLength="128" Unicode="true" FixedLength="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <Association Name="FK_ORDER_COSTUMER">
+          <End Role="CUSTOMER" Type="TestModel.CUSTOMER" Multiplicity="1" />
+          <End Role="ORDER" Type="TestModel.ORDER" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="CUSTOMER">
+              <PropertyRef Name="CUSTOMERID" />
+            </Principal>
+            <Dependent Role="ORDER">
+              <PropertyRef Name="CUSTOMERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_ORDERDETAILS_ORDER">
+          <End Role="ORDER" Type="TestModel.ORDER" Multiplicity="1" />
+          <End Role="ORDERDETAILS" Type="TestModel.ORDERDETAILS" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ORDER">
+              <PropertyRef Name="ORDERID" />
+            </Principal>
+            <Dependent Role="ORDERDETAILS">
+              <PropertyRef Name="ORDERID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2008/09/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestModelStoreContainer" CdmEntityContainer="TestEntities">
+          <EntitySetMapping Name="CUSTOMER"><EntityTypeMapping TypeName="TestModel.CUSTOMER"><MappingFragment StoreEntitySet="CUSTOMER">
+            <ScalarProperty Name="CUSTOMERID" ColumnName="CUSTOMERID" />
+            <ScalarProperty Name="NAME" ColumnName="NAME" />
+            <ScalarProperty Name="ADRESA" ColumnName="ADRESA" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ORDER"><EntityTypeMapping TypeName="TestModel.ORDER"><MappingFragment StoreEntitySet="ORDER">
+            <ScalarProperty Name="ORDERID" ColumnName="ORDERID" />
+            <ScalarProperty Name="DATA" ColumnName="DATA" />
+            <ScalarProperty Name="CUSTOMERID" ColumnName="CUSTOMERID" />
+            <ScalarProperty Name="VALOARE" ColumnName="VALOARE" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="ORDERDETAILS"><EntityTypeMapping TypeName="TestModel.ORDERDETAILS"><MappingFragment StoreEntitySet="ORDERDETAILS">
+            <ScalarProperty Name="ORDERID" ColumnName="ORDERID" />
+            <ScalarProperty Name="PRODUS" ColumnName="PRODUS" />
+            <ScalarProperty Name="VALOARE" ColumnName="VALOARE" />
+            <ScalarProperty Name="SERIAL" ColumnName="SERIAL" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams"><EntityTypeMapping TypeName="TestModel.sysdiagrams"><MappingFragment StoreEntitySet="sysdiagrams">
+            <ScalarProperty Name="name" ColumnName="name" />
+            <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+            <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+            <ScalarProperty Name="version" ColumnName="version" />
+            <ScalarProperty Name="definition" ColumnName="definition" />
+          </MappingFragment></EntityTypeMapping></EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2008/10/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="False" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="True" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams>
+      <Diagram Name="TestEntities">
+        <EntityTypeShape EntityType="TestModel.CUSTOMER" Width="1.5" PointX="0.75" PointY="1.125" Height="1.7879850260416672" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.ORDER" Width="1.5" PointX="3" PointY="0.875" Height="2.1725878906249996" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.ORDERDETAILS" Width="1.5" PointX="5.25" PointY="1" Height="1.9802864583333335" IsExpanded="true" />
+        <EntityTypeShape EntityType="TestModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="4.75" Height="1.9802864583333335" IsExpanded="true" />
+        <AssociationConnector Association="TestModel.FK_ORDER_COSTUMER" ManuallyRouted="false">
+          <ConnectorPoint PointX="2.25" PointY="2.0189925130208337" />
+          <ConnectorPoint PointX="3" PointY="2.0189925130208337" />
+        </AssociationConnector>
+        <AssociationConnector Association="TestModel.FK_ORDERDETAILS_ORDER" ManuallyRouted="false">
+          <ConnectorPoint PointX="4.5" PointY="1.9901432291666668" />
+          <ConnectorPoint PointX="5.25" PointY="1.9901432291666668" />
+        </AssociationConnector>
+      </Diagram>
+    </Diagrams>
+  </Designer>
+</edmx:Edmx>
